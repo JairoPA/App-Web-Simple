@@ -1,24 +1,22 @@
-# Rock Paper Scissors Web App
+Aplicación Web de Piedra, Papel o Tijeras
 
-This is a simple Rock Paper Scissors web app where the computer plays against itself. The app is built using HTML, CSS, and JavaScript.
+Esta es una simple aplicación web de Piedra, Papel o Tijeras donde la computadora juega contra sí misma. La aplicación está construida usando HTML, CSS y JavaScript.
+Captura de Pantalla de la Aplicación Web de Piedra, Papel o Tijeras
+Características
 
-![Rock Paper Scissors Web App Screenshot](screenshot.png)
+    Muestra un símbolo generado aleatoriamente de Piedra, Papel o Tijeras tanto para el lado izquierdo como para el derecho.
+    Resalta al ganador en verde y los empates en amarillo.
+    Repite el juego cada 100 ms durante 4 segundos y luego muestra el resultado final.
 
-## Features
+Cómo Usar
 
-- Displays a randomly generated Rock, Paper, or Scissors symbol for both the left and right sides.
-- Highlights the winner in green and draws in yellow.
-- Repeats the game every 100ms for 4 seconds and then shows the final result.
+    Clona este repositorio o descarga los archivos.
+    Abre el archivo index.html en tu navegador.
+    Haz clic en el botón "Start" para comenzar el juego.
+    El juego se jugará solo y mostrará el resultado después de 4 segundos.
 
-## How to use
+Archivos
 
-1. Clone this repository or download the files.
-2. Open the `index.html` file in your browser.
-3. Click the "Start" button to start the game.
-4. The game will play itself and show the result after 4 seconds.
-
-## Files
-
-- `index.html`: Contains the structure of the web app.
-- `style.css`: Contains the styling for the web app.
-- `script.js`: Contains the JavaScript code that handles the game logic and UI updates.
+    index.html: Contiene la estructura de la aplicación web.
+    style.css: Contiene el estilo para la aplicación web.
+    script.js: Contiene el código JavaScript que maneja la lógica del juego y las actualizaciones de la interfaz de usuario.
