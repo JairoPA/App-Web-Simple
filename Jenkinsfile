@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                git 'https://github.com/JairoPA/App-Web-Simple.git'
+               git url: 'https://github.com/JairoPA/App-Web-Simple.git', branch: 'main'
             }
         }
         stage('Desplegar aplicación') {
