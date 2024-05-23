@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Iniciar el servidor HTTP para servir los archivos
-                    sh 'nohup http-server /var/www/html/mi-aplicacion -p 8080 &'
+                    sh 'nohup http-server /var/www/html/mi-aplicacion -p 8081 &'
                 }
             }
         }
