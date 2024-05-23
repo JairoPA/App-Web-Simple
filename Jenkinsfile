@@ -12,7 +12,7 @@ pipeline {
    stages {
         stage('Checkout') {
     steps {
-        sshagent(credentials: ['sshagent']) {
+        sshagent(credentials: ['2']) {
             git branch: "${env.BRANCH}", url: "${env.REPO_URL}"
         }
     }
