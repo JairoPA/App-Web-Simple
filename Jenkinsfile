@@ -58,7 +58,6 @@ pipeline {
 </html>''',
                 mimeType: 'text/html'
             )
-            )
         }
     }
 }
