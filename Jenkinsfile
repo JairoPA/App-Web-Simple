@@ -21,7 +21,13 @@ pipeline {
             steps {
                 script {
                     // Iniciar el servidor HTTP para servir los archivos
-                    sh 'http-server /var/www/html/mi-aplicacion -p 8081'
+                    sh 'nohup http-server /var/www/html/mi-aplicacion -p 8080 &'
+                    // Esperar unos segundos para asegurarse de que el servidor HTTP se inicie
+                    sleep 5
+                    // Obtener la dirección IP de la máquina Jenkins
+                    def ip = sh(script: "hostname -I | awk '{print \$1}'", returnStdout: true).trim()
+                    // Imprimir la URL en la salida de la terminal
+                    echo "La aplicación está disponible en: http://${ip}:8080"
                 }
             }
         }
