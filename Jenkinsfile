@@ -9,12 +9,14 @@ pipeline {
         DEPLOY_URL = 'http://Simple_Web_App.com'
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: "${env.BRANCH}", url: "${env.REPO_URL}"
-            }
+   stage('Checkout') {
+    steps {
+        sshagent(credentials: ['sshagent']) {
+            git branch: "${env.BRANCH}", url: "${env.REPO_URL}"
         }
+    }
+}
+
 
         stage('Build') {
             steps {
