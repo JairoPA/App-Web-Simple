@@ -1,37 +1,66 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clonar repositorio') {
-            steps {
-                git url: 'https://github.com/JairoPA/App-Web-Simple.git', branch: 'main'
-            }
-        }
-        stage('Desplegar aplicación') {
-            steps {
-                script {
-                    // Crear el directorio de despliegue si no existe
-                    sh 'mkdir -p /var/www/jenkins/mi-aplicacion'
-                    // Copiar los archivos del repositorio al directorio de despliegue
-                    sh 'cp -r * /var/www/jenkins/mi-aplicacion/'
-                }
-            }
-        }
-        stage('Iniciar servidor HTTP') {
-            steps {
-                script {
-                    // Iniciar el servidor HTTP para servir los archivos
-                    sh 'http-server /var/www/html/mi-aplicacion -p 8081 &'
-                    // Esperar unos segundos para asegurarse de que el servidor HTTP se inicie
-                    sleep 5
-                    // Obtener la dirección IP de la máquina Jenkins
-                    def ip = sh(script: "hostname -I | awk '{print \$1}'", returnStdout: true).trim()
-                    // Imprimir la URL en la salida de la terminal
-                    echo "La aplicación está disponible en: http://${ip}:8081"
-                }
-            }
-        }
+    environment {
+        REPO_URL = 'https://github.com/usuario/repositorio.git'
+        BRANCH = 'main'
+        DEPLOY_SERVER = 'user@Simple_Web_App.com'
+        DEPLOY_PATH = '/var/www/jenkins'
+        DEPLOY_URL = 'http://Simple_Web_App.com'
     }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: "${env.BRANCH}", url: "${env.REPO_URL}"
+            }
+        }
+
+        stage('Build') {
+            steps {
+                script {
+                    // Captura de errores durante la construcción
+                    try {
+                        // Instalar dependencias
+                        sh 'npm install'
+                        
+                        // Ejecutar tareas de construcción (ajusta según tu configuración de gulp/grunt/webpack)
+                        sh 'npm run build' // Asumiendo que este comando ejecuta gulp o webpack
+                    } catch (Exception e) {
+                        // Manejo de errores y registros
+                        echo "Error en la fase de construcción: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error "Build failed"
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Copiar archivos construidos al servidor Apache
+                    try {
+                        sh """
+                            scp -r dist/* ${env.DEPLOY_SERVER}:${env.DEPLOY_PATH}
+                        """
+                        
+                        // Verificar despliegue accediendo a la URL
+                        def response = sh(script: "curl -s -o /dev/null -w '%{http_code}' ${env.DEPLOY_URL}", returnStdout: true).trim()
+                        if (response != '200') {
+                            error "Despliegue fallido. Código de respuesta: ${response}"
+                        } else {
+                            echo "Despliegue exitoso. Aplicación disponible en: ${env.DEPLOY_URL}"
+                        }
+                    } catch (Exception e) {
+                        // Manejo de errores durante el despliegue
+                        echo "Error en la fase de despliegue: ${e.message}"
+                        currentBuild.result = 'FAILURE'
+                        error "Deploy failed"
+                    }
+                }
+            }
+        }
 
     post {
         always {
