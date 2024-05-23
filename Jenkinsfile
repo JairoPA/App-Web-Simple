@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                git clone 'https://github.com/JairoPA/App-Web-Simple.git'
+                git 'https://github.com/JairoPA/App-Web-Simple.git'
             }
         }
         stage('Desplegar aplicación') {
