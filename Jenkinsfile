@@ -11,9 +11,9 @@ pipeline {
             steps {
                 script {
                     // Crear el directorio de despliegue si no existe
-                    sh 'mkdir -p /var/www/html/mi-aplicacion'
+                    sh 'mkdir -p /var/www/jenkins/mi-aplicacion'
                     // Copiar los archivos del repositorio al directorio de despliegue
-                    sh 'cp -r * /var/www/html/mi-aplicacion/'
+                    sh 'cp -r * /var/www/jenkins/mi-aplicacion/'
                 }
             }
         }
