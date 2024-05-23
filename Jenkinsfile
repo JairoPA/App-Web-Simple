@@ -9,13 +9,20 @@ pipeline {
         }
         stage('Desplegar aplicación') {
             steps {
-                // Aquí colocarías los comandos para desplegar tu aplicación
-                // Puedes usar shell, scp, rsync, etc.
-                // Por ejemplo, para un servidor local:
-                sh 'mkdir -p /var/www/html/mi-aplicacion && cp -r * /var/www/html/mi-aplicacion/'
-                
-                // Para un servidor remoto:
-                // sh 'scp -r * user@yourserver:/path/to/deploy/'
+                script {
+                    // Crear el directorio de despliegue si no existe
+                    sh 'mkdir -p /var/www/html/mi-aplicacion'
+                    // Copiar los archivos del repositorio al directorio de despliegue
+                    sh 'cp -r * /var/www/html/mi-aplicacion/'
+                }
+            }
+        }
+        stage('Iniciar servidor HTTP') {
+            steps {
+                script {
+                    // Iniciar el servidor HTTP para servir los archivos
+                    sh 'nohup http-server /var/www/html/mi-aplicacion -p 8080 &'
+                }
             }
         }
     }
@@ -51,8 +58,7 @@ pipeline {
 </html>''',
                 mimeType: 'text/html'
             )
-            // Configurar notificaciones por Slack
-            // slackSend (channel: '#deployments', message: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': ${currentBuild.currentResult}")
+            )
         }
     }
 }
