@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clonar repositorio') {
             steps {
-                git 'https://github.com/JairoPA/App-Web-Simple.git'
+                git clone 'https://github.com/JairoPA/App-Web-Simple.git'
             }
         }
         stage('Desplegar aplicación') {
@@ -25,8 +25,8 @@ pipeline {
             // Configurar notificaciones por correo electrónico
             emailext (
                 to: 'preciadojairo82@gmail.com',
-                subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-                body: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': ${currentBuild.currentResult}\nMore info at: ${env.BUILD_URL}"
+                subject: "Job",
+                body: "Job "
             )
             // Configurar notificaciones por Slack
             //slackSend (channel: '#deployments', message: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]': ${currentBuild.currentResult}")
